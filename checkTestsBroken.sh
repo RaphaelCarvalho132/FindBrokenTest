@@ -1,14 +1,13 @@
 #!/bin/bash
 
 ignoreTests() {
-    FILE_LOCATION="app/src/androidTest/java/com/carvalho/raphael/findbrokentest/LoginActivityTest.java"
+    FILE_LOCATION=$1
     sed -i '3i import org.junit.Ignore;' ${FILE_LOCATION}
 
-    METHOD_NAME="teste"
-    #ARGS = $*
-    #for VAR in $* ; do
-        sed -i '/\s*public\s*void\s*'${METHOD_NAME}'\s*(/i\    \@Ignore' ${FILE_LOCATION}
-    #done
+    ARGS=("$@")
+    for (( VAR = 1; VAR < $#; ++VAR )); do
+        sed -i '/\s*public\s*void\s*'${ARGS[VAR]}'\s*(/i\    \@Ignore' ${FILE_LOCATION}
+    done
 }
 
-ignoreTests
+ignoreTests "app/src/androidTest/java/com/carvalho/raphael/findbrokentest/LoginActivityTest.java" "teste"
